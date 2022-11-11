@@ -8,6 +8,8 @@ class LocalFuzzyInformationTechnology:
         # Network Definition
         self.g = graph
 
+        self.top_nodes = [0] * 3
+
     def find_maximum_shortest_path(self, source):
         path_lengths = nx.shortest_path_length(self.g, source=source)
 
@@ -15,7 +17,7 @@ class LocalFuzzyInformationTechnology:
 
     def classify_nodes_from_center(self, source):
         fuzzy_numbers = dict()
-        max_class = self.find_maximum_shortest_path(2)
+        max_class = self.find_maximum_shortest_path(source)
         path_lengths = nx.shortest_path_length(self.g, source=source)
 
         for k, v in path_lengths.items():
@@ -49,10 +51,18 @@ class LocalFuzzyInformationTechnology:
         for node in self.g.nodes:
             self.classify_nodes_from_center(node)
 
+        print("")
+        print("")
+        print("")
+        print("Best lfic values: ")
+        print(self.top_nodes)
+
     def get_node_lfic_value(self, probability_of_nodes):
         lfic_value = 0
         for k, v in probability_of_nodes.items():
             lfic_value = lfic_value + (-v * math.log(v)) / (k*k)
 
-        print(lfic_value)
+        for i in range(0, 3):
+            if self.top_nodes[i] < lfic_value:
+                self.top_nodes[i] = lfic_value
 

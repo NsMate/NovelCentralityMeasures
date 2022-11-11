@@ -1,5 +1,6 @@
 from itertools import combinations, groupby
 from centrality_measures.local_fuzzy_information_centrality import LocalFuzzyInformationTechnology
+from utils.read_graph import ReadGraph
 
 import networkx as nx
 import random
@@ -28,7 +29,15 @@ def gnp_random_connected_graph(n, p):
 
 
 if __name__ == '__main__':
-    graph = gnp_random_connected_graph(45, 0.0001)
+    #graph = gnp_random_connected_graph(45, 0.0001)
 
-    local_fuzzy = LocalFuzzyInformationTechnology(graph)
+    #local_fuzzy = LocalFuzzyInformationTechnology(graph)
+
+    reader = ReadGraph("tech-WHOIS.mtx")
+
+    my_graph = reader.read_graph()
+
+    lfic = LocalFuzzyInformationTechnology(my_graph)
+
+    lfic.check()
 
