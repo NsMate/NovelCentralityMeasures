@@ -1,6 +1,5 @@
 from itertools import combinations, groupby
-from centrality_measures.local_fuzzy_information_centrality import LocalFuzzyInformationTechnology
-from utils.read_graph import ReadGraph
+from experiments.lfic_experiments import LficExperiments
 
 import networkx as nx
 import random
@@ -33,11 +32,8 @@ if __name__ == '__main__':
 
     #local_fuzzy = LocalFuzzyInformationTechnology(graph)
 
-    reader = ReadGraph("tech-WHOIS.mtx")
+    lfic_experiments = LficExperiments("tech-WHOIS.mtx")
 
-    my_graph = reader.read_graph()
-
-    lfic = LocalFuzzyInformationTechnology(my_graph)
-
-    lfic.check()
+    lfic_experiments.read_in_graph()
+    lfic_experiments.calculate_node_centralities()
 
