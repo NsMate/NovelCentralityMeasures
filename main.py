@@ -1,5 +1,7 @@
 from itertools import combinations, groupby
 from experiments.lfic_experiments import LficExperiments
+from centrality_measures.effective_distance_based_centrality import NodeCorrelationMethod
+from utils.read_graph import ReadGraph
 
 import networkx as nx
 import random
@@ -28,12 +30,11 @@ def gnp_random_connected_graph(n, p):
 
 
 if __name__ == '__main__':
-    #graph = gnp_random_connected_graph(45, 0.0001)
+    #graph = gnp_random_connected_graph(45, 0.00001)
 
-    #local_fuzzy = LocalFuzzyInformationTechnology(graph)
+    reader = ReadGraph("tech-WHOIS.mtx")
+    graph = reader.read_graph()
 
-    lfic_experiments = LficExperiments("tech-WHOIS.mtx")
+    corr = NodeCorrelationMethod(graph)
 
-    lfic_experiments.read_in_graph()
-    lfic_experiments.calculate_node_centralities()
 
