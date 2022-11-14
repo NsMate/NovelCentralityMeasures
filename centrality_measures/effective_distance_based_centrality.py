@@ -3,7 +3,7 @@ from utils.k_shell import KShell
 import networkx as nx
 
 
-class NodeCorrelationMethod:
+class LocalClusteringHIndexCentrality:
 
     def __init__(self, graph):
         k_shell = KShell(graph)

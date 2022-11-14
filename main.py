@@ -1,6 +1,5 @@
 from itertools import combinations, groupby
-from experiments.lfic_experiments import LficExperiments
-from centrality_measures.effective_distance_based_centrality import NodeCorrelationMethod
+from centrality_measures.effective_distance_based_centrality import LocalClusteringHIndexCentrality
 from utils.read_graph import ReadGraph
 
 import networkx as nx
@@ -35,6 +34,6 @@ if __name__ == '__main__':
     reader = ReadGraph("tech-WHOIS.mtx")
     graph = reader.read_graph()
 
-    corr = NodeCorrelationMethod(graph)
+    corr = LocalClusteringHIndexCentrality(graph)
 
 
