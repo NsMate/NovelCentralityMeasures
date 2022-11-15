@@ -1,5 +1,5 @@
 from itertools import combinations, groupby
-from centrality_measures.effective_distance_based_centrality import LocalClusteringHIndexCentrality
+from centrality_measures.local_clustering_h_index import LocalClusteringHIndexCentrality
 from utils.read_graph import ReadGraph
 
 import networkx as nx
