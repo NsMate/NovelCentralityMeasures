@@ -47,6 +47,7 @@ class LocalClusteringHIndexCentrality:
                             + neighbor_influence
 
             self.graph.nodes[node]["lchi"] = lchi
+            print(str(node) + ": " + str(lchi))
 
         return self.graph
 

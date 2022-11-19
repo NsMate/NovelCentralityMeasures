@@ -10,7 +10,8 @@ class EffectiveDistanceBasedCentrality:
         k_shell = KShell(graph)
 
         self.graph = k_shell.assign_k_shell_numbers()
-        self.calculate_centrality(16)
+        for node in self.graph:
+            self.calculate_centrality(node)
 
     def calculate_effective_distance(self, source):
         P = 1 / (self.graph.degree[source])
@@ -25,7 +26,6 @@ class EffectiveDistanceBasedCentrality:
             k_power = math.sqrt(self.graph.nodes[source]["k-shell"] + self.graph.nodes[node]["k-shell"])
             neigbour_centrality += (k_power + self.graph.degree[source]) / \
                                    math.pow(self.calculate_effective_distance(source), 2)
-            print(str(source) + " " + str(node) + " " + str(neigbour_centrality))
 
         for node in self.graph.neighbors(source):
             centrality_of_next_to = 0
@@ -34,9 +34,12 @@ class EffectiveDistanceBasedCentrality:
                     k_power = math.sqrt(self.graph.nodes[source]["k-shell"] + self.graph.nodes[next]["k-shell"])
                     centrality_of_next_to += (k_power + self.graph.degree[source]) / \
                             math.pow((self.calculate_effective_distance(source) + self.calculate_effective_distance(next)), 2)
-                    print(str(node) + " " + str(next) + ": " + str(centrality_of_next_to))
+                k_power = math.sqrt(self.graph.nodes[node]["k-shell"] + self.graph.nodes[next]["k-shell"])
+                centrality_of_next_to += (k_power + self.graph.degree[source]) / \
+                                         math.pow((self.calculate_effective_distance(
+                                             node) + self.calculate_effective_distance(next)), 2)
             next_to_neighbour_centrality += centrality_of_next_to
-        print(neigbour_centrality)
-        print(next_to_neighbour_centrality)
 
         centrality = neigbour_centrality + next_to_neighbour_centrality
+        print(str(source) + ": " + str(centrality))
+

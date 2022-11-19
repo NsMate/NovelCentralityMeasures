@@ -1,6 +1,7 @@
 from itertools import combinations, groupby
 from centrality_measures.local_clustering_h_index import LocalClusteringHIndexCentrality
 from centrality_measures.effective_distance_centrality import EffectiveDistanceBasedCentrality
+from centrality_measures.local_fuzzy_information_centrality import LocalFuzzyInformationTechnology
 from utils.read_graph import ReadGraph
 
 import networkx as nx

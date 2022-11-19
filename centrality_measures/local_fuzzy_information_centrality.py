@@ -7,17 +7,12 @@ class LocalFuzzyInformationTechnology:
     def __init__(self, graph):
         self.g = graph
 
-        self.top_nodes = dict()
-
-    def find_maximum_shortest_path(self, source):
-        path_lengths = nx.shortest_path_length(self.g, source=source)
-
-        return math.floor(path_lengths.get(next(reversed(path_lengths))) / 2)
+        self.centrality_values = dict()
 
     def classify_nodes_from_center(self, source):
         fuzzy_numbers = dict()
-        max_class = self.find_maximum_shortest_path(source)
         path_lengths = nx.shortest_path_length(self.g, source=source)
+        max_class = math.ceil(path_lengths.get(next(reversed(path_lengths))) / 2)
 
         for k, v in path_lengths.items():
             if v <= max_class:
@@ -27,7 +22,6 @@ class LocalFuzzyInformationTechnology:
                     fuzzy_numbers[v] = fuzzy_numbers[v] + 1
                 elif v != 0:
                     fuzzy_numbers[v] = 1
-
         self.calculate_total_fuzzy_number_of_nodes(source, fuzzy_numbers, max_class)
 
     def calculate_total_fuzzy_number_of_nodes(self, source, fuzzy_numbers, max_class):
@@ -46,22 +40,20 @@ class LocalFuzzyInformationTechnology:
         self.get_node_lfic_value(source, probability_of_nodes)
 
     def check(self):
-        for node in self.g.nodes:
+        for node in self.g:
             self.classify_nodes_from_center(node)
 
         print("")
         print("")
         print("")
         print("Best node id's: ")
-        print(self.top_nodes)
+        print(self.centrality_values)
 
-        return self.top_nodes
+        return self.centrality_values
 
     def get_node_lfic_value(self, source, probability_of_nodes):
         lfic_value = 0
         for k, v in probability_of_nodes.items():
-            lfic_value = lfic_value + (-v * math.log(v, 10)) / (k*k)
-            self.top_nodes[source] = lfic_value
-
-        self.top_nodes = dict(sorted(self.top_nodes.items(), key=lambda item: item[1]))
+            lfic_value += (-v * math.log(v)) / (k*k)
+            self.centrality_values[source] = lfic_value
 
