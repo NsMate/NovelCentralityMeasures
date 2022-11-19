@@ -60,7 +60,7 @@ class LocalFuzzyInformationTechnology:
     def get_node_lfic_value(self, source, probability_of_nodes):
         lfic_value = 0
         for k, v in probability_of_nodes.items():
-            lfic_value = lfic_value + (-v * math.log(v)) / (k*k)
+            lfic_value = lfic_value + (-v * math.log(v, 10)) / (k*k)
             self.top_nodes[source] = lfic_value
 
         self.top_nodes = dict(sorted(self.top_nodes.items(), key=lambda item: item[1]))

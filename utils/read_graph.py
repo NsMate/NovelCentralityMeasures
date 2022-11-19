@@ -18,9 +18,8 @@ class ReadGraph:
                 splitted = line.split(' ')
                 if splitted[0].isnumeric():
                     if splitted[0] not in self.graph:
-                        self.graph.add_node(splitted[0])
-                    if splitted[0].rstrip() == splitted[1].rstrip():
-                        print(splitted[0].rstrip())
-                        print("fuck")
-                    self.graph.add_edge(splitted[0].rstrip(), splitted[1].rstrip())
+                        self.graph.add_node(int(splitted[0].rstrip()))
+                    elif splitted[1] not in self.graph:
+                        self.graph.add_node(int(splitted[1].rstrip()))
+                    self.graph.add_edge(int(splitted[0].rstrip()), int(splitted[1].rstrip()))
 

@@ -1,5 +1,6 @@
 import copy
 
+
 class KShell:
 
     def __init__(self, graph):
