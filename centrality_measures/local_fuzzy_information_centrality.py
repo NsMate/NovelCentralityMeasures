@@ -39,15 +39,9 @@ class LocalFuzzyInformationTechnology:
 
         self.get_node_lfic_value(source, probability_of_nodes)
 
-    def check(self):
+    def get_centrality_values(self):
         for node in self.g:
             self.classify_nodes_from_center(node)
-
-        print("")
-        print("")
-        print("")
-        print("Best node id's: ")
-        print(self.centrality_values)
 
         return self.centrality_values
 

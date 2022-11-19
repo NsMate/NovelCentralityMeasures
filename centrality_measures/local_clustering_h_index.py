@@ -9,10 +9,16 @@ class LocalClusteringHIndexCentrality:
         k_shell = KShell(graph)
 
         self.graph = k_shell.assign_k_shell_numbers()
+        self.centrality_values = dict()
 
         for n in self.graph.nodes:
             self.graph.nodes[n]["h_index"] = self.calculate_h_index(n)
             self.graph.nodes[n]["c_coefficient"] = nx.clustering(self.graph, n)
+
+    def get_centrality_values(self):
+        self.local_clustering_h_index()
+
+        return self.centrality_values
 
     def calculate_h_index(self, node):
         sorted_neighbor_degrees = sorted((self.graph.degree(v) for v in self.graph.neighbors(node)), reverse=True)
@@ -46,8 +52,5 @@ class LocalClusteringHIndexCentrality:
             lchi = self.graph.nodes[node]["h_index"] / (1 + self.graph.nodes[node]["c_coefficient"]) \
                             + neighbor_influence
 
-            self.graph.nodes[node]["lchi"] = lchi
-            print(str(node) + ": " + str(lchi))
-
-        return self.graph
+            self.centrality_values[node] = lchi
 

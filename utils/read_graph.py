@@ -3,17 +3,16 @@ import networkx as nx
 
 class ReadGraph:
 
-    def __init__(self, graph_file_name):
-        self.file_name = graph_file_name
+    def __init__(self):
         self.graph = nx.Graph()
 
-    def read_graph(self):
-        self.read_from_mtx()
+    def read_graph(self, network_name):
+        self.read_from_mtx(network_name)
 
         return self.graph
 
-    def read_from_mtx(self):
-        with open("./networks/"+self.file_name, encoding="utf-8") as file:
+    def read_from_mtx(self, network_name):
+        with open("./networks/"+network_name, encoding="utf-8") as file:
             for line in file:
                 splitted = line.split(' ')
                 if splitted[0].isnumeric():

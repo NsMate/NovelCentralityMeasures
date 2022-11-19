@@ -2,6 +2,7 @@ from itertools import combinations, groupby
 from centrality_measures.local_clustering_h_index import LocalClusteringHIndexCentrality
 from centrality_measures.effective_distance_centrality import EffectiveDistanceBasedCentrality
 from centrality_measures.local_fuzzy_information_centrality import LocalFuzzyInformationTechnology
+from experiments.common_experiments import CommonExperiments
 from utils.read_graph import ReadGraph
 
 import networkx as nx
@@ -33,9 +34,7 @@ def gnp_random_connected_graph(n, p):
 if __name__ == '__main__':
     #graph = gnp_random_connected_graph(45, 0.00001)
 
-    reader = ReadGraph("toy_network_effective_distance")
-    graph = reader.read_graph()
-
-    corr = EffectiveDistanceBasedCentrality(graph)
-
+    exp = CommonExperiments()
+    exp.read_graph("tech-WHOIS.mtx")
+    exp.get_centralities()
 
