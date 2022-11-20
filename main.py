@@ -3,6 +3,7 @@ from centrality_measures.local_clustering_h_index import LocalClusteringHIndexCe
 from centrality_measures.effective_distance_centrality import EffectiveDistanceBasedCentrality
 from centrality_measures.local_fuzzy_information_centrality import LocalFuzzyInformationTechnology
 from experiments.common_experiments import CommonExperiments
+from experiments.information_model_experiments import InformationModelExperiments
 from utils.read_graph import ReadGraph
 
 import networkx as nx
@@ -34,7 +35,7 @@ def gnp_random_connected_graph(n, p):
 if __name__ == '__main__':
     #graph = gnp_random_connected_graph(45, 0.00001)
 
-    exp = CommonExperiments()
-    exp.read_graph("tech-WHOIS.mtx")
-    exp.get_centralities()
+    exp = InformationModelExperiments()
+    exp.read_graph_get_starting_nodes("tech-WHOIS.mtx")
+    exp.run_cascade_model_on_starting_nodes()
 

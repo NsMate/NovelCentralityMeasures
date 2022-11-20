@@ -20,5 +20,7 @@ class ReadGraph:
                         self.graph.add_node(int(splitted[0].rstrip()))
                     elif splitted[1] not in self.graph:
                         self.graph.add_node(int(splitted[1].rstrip()))
+                    if int(splitted[0].rstrip()) == int(splitted[1].rstrip()):
+                        print("-----------READ ERROR------------")
                     self.graph.add_edge(int(splitted[0].rstrip()), int(splitted[1].rstrip()))
 
