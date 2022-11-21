@@ -34,8 +34,8 @@ def gnp_random_connected_graph(n, p):
 
 if __name__ == '__main__':
     #graph = gnp_random_connected_graph(45, 0.00001)
+    reader = ReadGraph()
+    graph = reader.read_graph("toy_network_effective_distance")
 
-    exp = InformationModelExperiments()
-    exp.read_graph_get_starting_nodes("tech-WHOIS.mtx")
-    exp.run_cascade_model_on_starting_nodes()
+    exp = EffectiveDistanceBasedCentrality(graph)
 

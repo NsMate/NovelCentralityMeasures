@@ -64,7 +64,12 @@ class InformationModelExperiments:
 
         hindex_iterations = model.iteration_bunch(200)
 
-        print(hindex_iterations[50]["node_count"])
+        print("Hindex after 50 iterations: " + str(hindex_iterations[50]["node_count"]))
+
+        config.add_model_initial_configuration("Infected", self.local_fuzzy_starting_nodes)
+        model.set_initial_status(config)
+
+        local_fuzzy_iterations = model.iteration_bunch(200)
 
     def run_cascade_model_on_starting_nodes(self):
         model = ep.IndependentCascadesModel(self.graph)
@@ -79,5 +84,10 @@ class InformationModelExperiments:
 
         hindex_iterations = model.iteration_bunch(400)
 
-        print(hindex_iterations[200]["node_count"])
+        print("Hindex after 50 iterations: " + str(hindex_iterations[50]["node_count"]))
+
+        config.add_model_initial_configuration("Infected", self.local_fuzzy_starting_nodes)
+        model.set_initial_status(config)
+
+        local_fuzzy_iterations = model.iteration_bunch(200)
 
