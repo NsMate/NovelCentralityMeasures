@@ -13,6 +13,15 @@ class InformationModelExperiments:
         self.graph = nx.Graph()
         self.reader = ReadGraph()
 
+    def execute_tests(self, graph_name):
+        self.read_graph_get_starting_nodes(graph_name)
+
+        for i in range(500):
+            self.run_SIR_model_on_starting_nodes()
+            self.run_cascade_model_on_starting_nodes()
+            self.run_threshold_model_on_starting_nodes()
+
+
     def read_graph_get_starting_nodes(self, graph_name):
         self.graph = self.reader.read_graph(graph_name)
 
