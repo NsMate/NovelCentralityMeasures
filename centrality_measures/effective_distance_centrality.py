@@ -26,19 +26,17 @@ class EffectiveDistanceBasedCentrality:
             k_power = math.sqrt(self.graph.nodes[source]["k-shell"] + self.graph.nodes[node]["k-shell"])
             neigbour_centrality += (k_power + self.graph.degree[source]) \
                                    / math.pow(self.calculate_effective_distance(source), 2)
-        self.graph.nodes[source]["influence"] = neigbour_centrality
 
-        for node in self.graph.neighbors(source):
+            self.graph.nodes[source]["influence"] = neigbour_centrality
             for next_node in self.graph.neighbors(node):
                 distance = 0
-                if next_node not in self.graph.neighbors(source):
-                    if next_node in self.graph.neighbors(source):
-                        distance = math.pow(self.calculate_effective_distance(source), 2)
-                    else:
-                        distance = math.pow((self.calculate_effective_distance(source)
-                                             + self.calculate_effective_distance(next_node)), 2)
-                    k_power = math.sqrt(self.graph.nodes[source]["k-shell"] + self.graph.nodes[next_node]["k-shell"])
-                    neigbour_centrality += (k_power + self.graph.degree[source]) / distance
+                if next_node in self.graph.neighbors(source):
+                    distance = math.pow(self.calculate_effective_distance(source), 2)
+                else:
+                    distance = math.pow((self.calculate_effective_distance(source)
+                                         + self.calculate_effective_distance(next_node)), 2)
+                k_power = math.sqrt(self.graph.nodes[source]["k-shell"] + self.graph.nodes[next_node]["k-shell"])
+                neigbour_centrality += (k_power + self.graph.degree[source]) / distance
 
         print(str(source) + ": " + str(neigbour_centrality))
 

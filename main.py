@@ -1,6 +1,6 @@
 from itertools import combinations, groupby
 from centrality_measures.local_clustering_h_index import LocalClusteringHIndexCentrality
-from centrality_measures.effective_distance_centrality import EffectiveDistanceBasedCentrality
+from centrality_measures.global_structure_model import GlobalStructureModel
 from centrality_measures.local_fuzzy_information_centrality import LocalFuzzyInformationTechnology
 from experiments.common_experiments import CommonExperiments
 from experiments.information_model_experiments import InformationModelExperiments
@@ -35,7 +35,7 @@ def gnp_random_connected_graph(n, p):
 if __name__ == '__main__':
     #graph = gnp_random_connected_graph(45, 0.00001)
     reader = ReadGraph()
-    graph = reader.read_graph("toy_network_effective_distance")
+    graph = reader.read_graph("toy_network_gsm")
 
-    exp = EffectiveDistanceBasedCentrality(graph)
+    exp = GlobalStructureModel(graph)
 
