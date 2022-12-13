@@ -9,13 +9,16 @@ class LocalFuzzyInformationTechnology:
 
         self.centrality_values = dict()
 
+    def set_graph(self, graph):
+        self.g = graph
+
     def classify_nodes_from_center(self, source):
         fuzzy_numbers = dict()
         path_lengths = nx.shortest_path_length(self.g, source=source)
         max_class = math.ceil(path_lengths.get(next(reversed(path_lengths))) / 2)
 
         for k, v in path_lengths.items():
-            if v <= max_class:
+            if v <= max_class and v != 0:
                 self.g.nodes[k]["class"] = v
                 self.g.nodes[k]["weight"] = math.exp(-(v*v / max_class * max_class))
                 if v in fuzzy_numbers:
@@ -48,6 +51,6 @@ class LocalFuzzyInformationTechnology:
     def get_node_lfic_value(self, source, probability_of_nodes):
         lfic_value = 0
         for k, v in probability_of_nodes.items():
-            lfic_value += (-v * math.log(v)) / (k*k)
+            lfic_value += -v * math.log(v) / (k*k)
             self.centrality_values[source] = lfic_value
 

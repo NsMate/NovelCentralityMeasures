@@ -5,15 +5,14 @@ import networkx as nx
 
 class LocalClusteringHIndexCentrality:
 
-    def __init__(self, graph):
-        k_shell = KShell(graph)
+    def __init__(self):
+        self.k_shell = KShell()
+        self.graph = nx.Graph()
 
-        self.graph = k_shell.assign_k_shell_numbers()
         self.centrality_values = dict()
 
-        for n in self.graph.nodes:
-            self.graph.nodes[n]["h_index"] = self.calculate_h_index(n)
-            self.graph.nodes[n]["c_coefficient"] = nx.clustering(self.graph, n)
+    def set_graph(self, graph):
+        self.graph = graph
 
     def get_centrality_values(self):
         self.local_clustering_h_index()
@@ -33,6 +32,12 @@ class LocalClusteringHIndexCentrality:
     def local_clustering_h_index(self):
         avg_h_index = 0
         avg_degree = 0
+
+        for n in self.graph.nodes:
+            self.graph.nodes[n]["h_index"] = self.calculate_h_index(n)
+            self.graph.nodes[n]["c_coefficient"] = nx.clustering(self.graph, n)
+        self.k_shell.set_graph(self.graph)
+        self.graph = self.k_shell.assign_k_shell_numbers()
 
         for node in self.graph:
             avg_h_index += self.graph.nodes[node]["h_index"]

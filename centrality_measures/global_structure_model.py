@@ -5,14 +5,18 @@ import networkx as nx
 
 class GlobalStructureModel:
 
-    def __init__(self, graph):
-        k_shell = KShell(graph)
+    def __init__(self):
+        self.k_shell = KShell()
+        self.graph = nx.Graph()
 
-        self.graph = k_shell.assign_k_shell_numbers()
         self.centrality_values = dict()
-        self.calculate_influences()
 
-    def calculate_influences(self):
+    def set_graph(self, graph):
+        self.graph = graph
+
+    def get_centrality_values(self):
+        self.k_shell.set_graph(self.graph)
+        self.graph = self.k_shell.assign_k_shell_numbers()
         for node in self.graph.nodes:
             global_influence = 0
             influence = math.pow(math.e, (self.graph.nodes[node]["k-shell"] / len(self.graph.nodes)))
@@ -25,4 +29,6 @@ class GlobalStructureModel:
                                     (len(nx.shortest_path(self.graph, source=node, target=next_node)) - 1)
 
             self.centrality_values[node] = influence * global_influence
+
+        return self.centrality_values
 
