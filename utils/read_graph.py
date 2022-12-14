@@ -12,6 +12,7 @@ class ReadGraph:
         return self.graph
 
     def read_from_mtx(self, network_name):
+        self.graph = nx.Graph()
         with open("./networks/"+network_name, encoding="utf-8") as file:
             for line in file:
                 splitted = line.split(' ')

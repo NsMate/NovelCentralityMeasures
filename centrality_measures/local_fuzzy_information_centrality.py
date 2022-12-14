@@ -4,12 +4,13 @@ import networkx as nx
 
 class LocalFuzzyInformationTechnology:
 
-    def __init__(self, graph):
-        self.g = graph
+    def __init__(self):
+        self.g = nx.Graph()
 
         self.centrality_values = dict()
 
     def set_graph(self, graph):
+        self.centrality_values = dict()
         self.g = graph
 
     def classify_nodes_from_center(self, source):

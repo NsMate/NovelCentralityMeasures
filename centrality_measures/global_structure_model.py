@@ -12,6 +12,7 @@ class GlobalStructureModel:
         self.centrality_values = dict()
 
     def set_graph(self, graph):
+        self.centrality_values = dict()
         self.graph = graph
 
     def get_centrality_values(self):
