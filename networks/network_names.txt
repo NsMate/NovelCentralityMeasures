@@ -2,8 +2,8 @@ high avg degree - socfb-Howard90
 low avg degree - soc-pages-food
 low kcore - soc-hamsterster
 high kcore - soc-pages-tvshow
-high triangle - soc-pages-government
-low triangle - socfb-Simmons81
+high triangle - soc-wiki-elec
+low triangle - soc-advogato
 
 Local H CLuster measures:
 

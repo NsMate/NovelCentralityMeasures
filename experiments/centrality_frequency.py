@@ -83,6 +83,8 @@ class CentralityFrequency:
         file.close()
 
     def global_structure_model_frequencies(self):
+        self.graphs = ["low_kcore.mtx", "high_triangle.mtx",
+                       "low_triangle.mtx"]
         global_structure = GlobalStructureModel()
         print("Global Structure Model measures: \n")
 

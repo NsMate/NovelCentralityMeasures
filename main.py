@@ -33,5 +33,5 @@ if __name__ == '__main__':
     #graph = gnp_random_connected_graph(45, 0.00001)
 
     frequencies = CentralityFrequency()
-    frequencies.global_structure_model_frequencies()
+    frequencies.basic_centrality_frequencies()
 
