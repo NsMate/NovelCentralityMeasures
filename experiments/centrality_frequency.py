@@ -18,7 +18,7 @@ class CentralityFrequency:
     def local_fuzzy_frequencies(self):
         print("Local Fuzzy Centrality measures: \n")
 
-        file = open('local_fuzzy_eredmények', 'w', encoding='utf-8')
+        file = open('results/frequency_results/local_fuzzy_eredmények', 'w', encoding='utf-8')
         file.write("local fuzzy centrality eredmények: \n")
 
         for graph in self.graphs:
@@ -53,7 +53,7 @@ class CentralityFrequency:
         local_h = LocalClusteringHIndexCentrality()
         print("Local H CLuster measures: \n")
 
-        file = open('local_h_eredmények', 'w', encoding='utf-8')
+        file = open('results/frequency_results/local_h_eredmények', 'w', encoding='utf-8')
         file.write("local h index eredmények: \n")
         for graph in self.graphs:
             centrality_frequencies = dict()
@@ -88,7 +88,7 @@ class CentralityFrequency:
         global_structure = GlobalStructureModel()
         print("Global Structure Model measures: \n")
 
-        file = open('global_structure_eredmények', 'w', encoding='utf-8')
+        file = open('results/frequency_results/global_structure_eredmények', 'w', encoding='utf-8')
         file.write("global structure model eredmények: \n")
 
         for graph in self.graphs:
@@ -122,7 +122,7 @@ class CentralityFrequency:
     def basic_centrality_frequencies(self):
         print("Bacic centrality measures: ")
 
-        file = open('basic_centrality_eredmények', 'w', encoding='utf-8')
+        file = open('results/frequency_results/basic_centrality_eredmények', 'w', encoding='utf-8')
 
         for graph in self.graphs:
             centrality_frequencies = dict()
