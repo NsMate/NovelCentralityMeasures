@@ -1,7 +1,7 @@
 from itertools import combinations, groupby
 
 from experiments.centrality_frequency import CentralityFrequency
-from utils.read_graph import ReadGraph
+from experiments.spread_experiment import SpreadExperiment
 
 import networkx as nx
 import random
@@ -32,6 +32,6 @@ def gnp_random_connected_graph(n, p):
 if __name__ == '__main__':
     #graph = gnp_random_connected_graph(45, 0.00001)
 
-    frequencies = CentralityFrequency()
-    frequencies.basic_centrality_frequencies()
+    spread = SpreadExperiment()
+    spread.sir_model_spread()
 

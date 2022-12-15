@@ -11,7 +11,8 @@ class SpreadExperiment:
         self.reader = ReadGraph()
         self.graphs = ["high_degree.mtx", "low_degree.mtx", "high_kcore.mtx", "low_kcore.mtx", "high_triangle.mtx",
               "low_triangle.mtx"]
-        self.local_h_cores = []
+        self.local_h_cores = [[1439, 87, 1494, 2610, 156], [265, 340, 90, 67, 56], [1673, 2036, 3525, 1177, 3156],
+                              [157, 46, 30, 597, 328], [2565, 1549, 766, 1166, 457], [418, 650, 867, 229, 198]]
         self.local_fuzzy_cores = []
         self.global_structure_model_cores = []
         self.degree_centrality_nodes = []
@@ -24,14 +25,15 @@ class SpreadExperiment:
             model = ep.SIRModel(read_graph)
             cfg = mc.Configuration()
             cfg.add_model_parameter('beta', 0.01)
-            cfg.add_model_parameter('gamma', 0.05)
+            cfg.add_model_parameter('gamma', 0.005)
+            print(str(graph) + ":")
 
             cfg.add_model_initial_configuration("Infected", self.local_h_cores[i])
             model.set_initial_status(cfg)
-
             local_h_iteration = model.iteration_bunch(200)
+            print(str(local_h_iteration[-1]["node_count"]) + "\n")
             model.reset()
-
+            """
             cfg.add_model_initial_configuration("Infected", self.local_fuzzy_cores[i])
             model.set_initial_status(cfg)
 
@@ -54,9 +56,8 @@ class SpreadExperiment:
             model.set_initial_status(cfg)
 
             betweenness_iteration = model.iteration_bunch(200)
-
+            """
             i += 1
-            print(local_h_iteration)
 
     def threshold_model_spread(self):
         i = 0
