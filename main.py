@@ -2,6 +2,7 @@ from itertools import combinations, groupby
 
 from experiments.centrality_frequency import CentralityFrequency
 from experiments.spread_experiment import SpreadExperiment
+from experiments.coverage_experiment import CoverageExperiment
 
 import networkx as nx
 import random
@@ -33,5 +34,7 @@ if __name__ == '__main__':
     #graph = gnp_random_connected_graph(45, 0.00001)
 
     spread = SpreadExperiment()
+    spread.sir_model_spread()
+    spread.threshold_model_spread()
     spread.cascade_model_spread()
 

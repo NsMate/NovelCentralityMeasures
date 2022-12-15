@@ -27,11 +27,11 @@ class SpreadExperiment:
         removed = 0
         for iteration in range(0, 500, 1):
             model.set_initial_status(config)
-            local_h_iteration = model.iteration_bunch(50)
-            susceptible += local_h_iteration[-1]["node_count"][0]
-            infected += local_h_iteration[-1]["node_count"][1]
+            iteration_result = model.iteration_bunch(50)
+            susceptible += iteration_result[-1]["node_count"][0]
+            infected += iteration_result[-1]["node_count"][1]
             if algorithm == ("SIR" or "CASCADE"):
-                removed += local_h_iteration[-1]["node_count"][2]
+                removed += iteration_result[-1]["node_count"][2]
             model.reset()
         susceptible = susceptible / 500
         infected = infected / 500
@@ -54,7 +54,7 @@ class SpreadExperiment:
             file.write(str(graph) + ": \n\n")
             model = ep.SIRModel(read_graph)
             cfg = mc.Configuration()
-            cfg.add_model_parameter('beta', 0.01)
+            cfg.add_model_parameter('beta', 0.005)
             cfg.add_model_parameter('gamma', 0.005)
 
             cfg.add_model_initial_configuration("Infected", self.local_h_cores[i])
@@ -99,7 +99,7 @@ class SpreadExperiment:
 
             config = mc.Configuration()
 
-            threshold = 0.25
+            threshold = 0.12
             for node in read_graph.nodes():
                 config.add_node_configuration("threshold", node, threshold)
 
@@ -144,8 +144,8 @@ class SpreadExperiment:
 
             model = ep.IndependentCascadesModel(read_graph)
             config = mc.Configuration()
-            threshold = 0.1
-            for edge in read_graph.nodes:
+            threshold = 0.12
+            for edge in read_graph.edges:
                 config.add_edge_configuration("threshold", edge, threshold)
 
             config.add_model_initial_configuration("Infected", self.local_h_cores[i])
