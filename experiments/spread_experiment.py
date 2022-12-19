@@ -1,5 +1,6 @@
 from utils.read_graph import ReadGraph
 
+import networkx as nx
 import ndlib.models.epidemics as ep
 import ndlib.models.ModelConfig as mc
 
@@ -22,24 +23,21 @@ class SpreadExperiment:
                                              [157, 46, 597, 30, 232, 328], [2565, 11, 457, 4037, 1549], [223, 418, 546, 867, 900]]
 
     def write_result_to_file(self, model, config, algorithm, file):
-        susceptible = 0
-        infected = 0
-        removed = 0
-        for iteration in range(0, 500, 1):
+        infected_algorithms = ["SIR", "CASCADE"]
+        avg = 1
+        susceptible, infected, removed = 0, 0, 0
+        for iteration in range(0, avg, 1):
             model.set_initial_status(config)
-            iteration_result = model.iteration_bunch(50)
+            iteration_result = model.iteration_bunch(20)
             susceptible += iteration_result[-1]["node_count"][0]
             infected += iteration_result[-1]["node_count"][1]
-            if algorithm == ("SIR" or "CASCADE"):
+            if algorithm in infected_algorithms:
                 removed += iteration_result[-1]["node_count"][2]
             model.reset()
-        susceptible = susceptible / 500
-        infected = infected / 500
-        file.write("500 AVG susceptible: " + str(susceptible) + " \n")
-        file.write("500 AVG infected : " + str(infected) + " \n")
-        if algorithm == ("SIR" or "CASCADE"):
-            removed = removed / 500
-            file.write("500 AVG removed: " + str(removed) + " \n\n")
+        file.write("500 AVG susceptible: " + str(susceptible / avg) + " \n")
+        file.write("500 AVG infected : " + str(infected / avg) + " \n")
+        if algorithm in infected_algorithms:
+            file.write("500 AVG removed: " + str(removed / avg) + " \n\n")
         else:
             file.write("\n")
 
@@ -88,7 +86,7 @@ class SpreadExperiment:
     def threshold_model_spread(self):
         algorithm = "THRESHOLD"
         i = 0
-
+        self.graphs = ["low_degree.mtx"]
         file = open('results/spread_results/threshold_eredmények', 'w', encoding='utf-8')
         file.write("Threshold model eredmények: \n\n")
 
@@ -99,15 +97,20 @@ class SpreadExperiment:
 
             config = mc.Configuration()
 
-            threshold = 0.12
+            threshold = 1
             for node in read_graph.nodes():
                 config.add_node_configuration("threshold", node, threshold)
 
-            config.add_model_initial_configuration("Infected", self.local_h_cores[i])
+            config.add_model_initial_configuration("Infected", self.local_h_cores[1])
             file.write("Local H Index cores: \n")
 
-            self.write_result_to_file(model, config, algorithm, file)
+            model.set_initial_status(config)
 
+            iteration = model.iteration_bunch(100)
+            print("susceptible " + str(iteration[-1]["node_count"][0]))
+            print("infected " + str(iteration[-1]["node_count"][1]))
+            #self.write_result_to_file(model, config, algorithm, file)
+            """
             config.add_model_initial_configuration("Infected", self.local_fuzzy_cores[i])
             file.write("Local Fuzzy cores: \n")
 
@@ -127,14 +130,13 @@ class SpreadExperiment:
             file.write("Betwenness centrality cores: \n")
 
             self.write_result_to_file(model, config, algorithm, file)
-
+            """
             i += 1
         file.close()
 
     def cascade_model_spread(self):
         i = 0
         algorithm = "CASCADE"
-
         file = open('results/spread_results/cascade_eredmények', 'w', encoding='utf-8')
         file.write("Cascade model eredmények: \n\n")
 
@@ -144,15 +146,18 @@ class SpreadExperiment:
 
             model = ep.IndependentCascadesModel(read_graph)
             config = mc.Configuration()
-            threshold = 0.12
+            threshold = 1
             for edge in read_graph.edges:
                 config.add_edge_configuration("threshold", edge, threshold)
 
             config.add_model_initial_configuration("Infected", self.local_h_cores[i])
             file.write("Local H Index cores: \n")
 
-            self.write_result_to_file(model, config, algorithm, file)
+            itearate = model.iteration()
+            print(itearate["node_count"])
 
+            self.write_result_to_file(model, config, algorithm, file)
+            """
             config.add_model_initial_configuration("Infected", self.local_fuzzy_cores[i])
             file.write("Local Fuzzy centrality cores: \n")
 
@@ -172,7 +177,7 @@ class SpreadExperiment:
             file.write("Betweennes centrality cores: \n")
 
             self.write_result_to_file(model, config, algorithm, file)
-
+            """
             i += 1
         file.close()
 
