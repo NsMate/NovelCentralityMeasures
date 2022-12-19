@@ -24,11 +24,11 @@ class SpreadExperiment:
 
     def write_result_to_file(self, model, config, algorithm, file):
         infected_algorithms = ["SIR", "CASCADE"]
-        avg = 1
+        avg = 10
         susceptible, infected, removed = 0, 0, 0
         for iteration in range(0, avg, 1):
             model.set_initial_status(config)
-            iteration_result = model.iteration_bunch(20)
+            iteration_result = model.iteration_bunch(4)
             susceptible += iteration_result[-1]["node_count"][0]
             infected += iteration_result[-1]["node_count"][1]
             if algorithm in infected_algorithms:
@@ -86,7 +86,6 @@ class SpreadExperiment:
     def threshold_model_spread(self):
         algorithm = "THRESHOLD"
         i = 0
-        self.graphs = ["low_degree.mtx"]
         file = open('results/spread_results/threshold_eredmények', 'w', encoding='utf-8')
         file.write("Threshold model eredmények: \n\n")
 
@@ -97,20 +96,15 @@ class SpreadExperiment:
 
             config = mc.Configuration()
 
-            threshold = 1
+            threshold = 5 / len(read_graph.nodes) * 10
             for node in read_graph.nodes():
                 config.add_node_configuration("threshold", node, threshold)
 
-            config.add_model_initial_configuration("Infected", self.local_h_cores[1])
+            config.add_model_initial_configuration("Infected", self.local_h_cores[i])
             file.write("Local H Index cores: \n")
 
-            model.set_initial_status(config)
+            self.write_result_to_file(model, config, algorithm, file)
 
-            iteration = model.iteration_bunch(100)
-            print("susceptible " + str(iteration[-1]["node_count"][0]))
-            print("infected " + str(iteration[-1]["node_count"][1]))
-            #self.write_result_to_file(model, config, algorithm, file)
-            """
             config.add_model_initial_configuration("Infected", self.local_fuzzy_cores[i])
             file.write("Local Fuzzy cores: \n")
 
@@ -130,7 +124,7 @@ class SpreadExperiment:
             file.write("Betwenness centrality cores: \n")
 
             self.write_result_to_file(model, config, algorithm, file)
-            """
+
             i += 1
         file.close()
 

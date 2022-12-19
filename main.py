@@ -35,8 +35,8 @@ def gnp_random_connected_graph(n, p):
 if __name__ == '__main__':
     #graph = gnp_random_connected_graph(45, 0.00001)
 
-    #spread = SpreadExperiment()
-    #spread.threshold_model_spread()
+    spread = SpreadExperiment()
+    spread.threshold_model_spread()
     """
     # Network topology
     g = nx.erdos_renyi_graph(1000, 0.1)
@@ -61,7 +61,7 @@ if __name__ == '__main__':
     print("Susceptible " + str(iterations[-1]["node_count"][0]))
     print("Infected " + str(iterations[-1]["node_count"][1]))
     print("Removed " + str(iterations[-1]["node_count"][2]))
-    """
+    
     for i in range(0, 50, 1):
 
         # Network topology
@@ -82,10 +82,10 @@ if __name__ == '__main__':
         model.set_initial_status(config)
 
         # Simulation execution
-        iterations_thr = model.iteration_bunch(50)
+        iterations_thr = model.iteration_bunch(5)
 
         print("Susceptible " + str(iterations_thr[-1]["node_count"][0]))
         print("Infected " + str(iterations_thr[-1]["node_count"][1]))
         #print("Removed " + str(iterations[-1]["node_count"][2]))
-
+        """
 
