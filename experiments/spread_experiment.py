@@ -25,28 +25,35 @@ class SpreadExperiment:
         susceptible = 0
         infected = 0
         removed = 0
-        for iteration in range(0, 500, 1):
+        infected_and_removed = 0
+        iteration = 25
+        repeat = 500
+        for i in range(0, repeat, 1):
             model.set_initial_status(config)
-            iteration_result = model.iteration_bunch(50)
+            iteration_result = model.iteration_bunch(iteration)
             susceptible += iteration_result[-1]["node_count"][0]
             infected += iteration_result[-1]["node_count"][1]
             if algorithm == ("SIR" or "CASCADE"):
                 removed += iteration_result[-1]["node_count"][2]
+                infected_and_removed += infected
+                infected_and_removed += removed
             model.reset()
-        susceptible = susceptible / 500
-        infected = infected / 500
+        susceptible = susceptible / repeat
+        infected = infected / repeat
         file.write("500 AVG susceptible: " + str(susceptible) + " \n")
         file.write("500 AVG infected : " + str(infected) + " \n")
         if algorithm == ("SIR" or "CASCADE"):
-            removed = removed / 500
-            file.write("500 AVG removed: " + str(removed) + " \n\n")
+            removed = removed / repeat
+            infected_and_removed = infected_and_removed / repeat
+            file.write("500 AVG removed: " + str(removed) + " \n")
+            file.write("500 AVG infected and removed: " + str(infected_and_removed) + " \n\n")
         else:
             file.write("\n")
 
     def sir_model_spread(self):
         algorithm = "SIR"
         i = 0
-        file = open('results/spread_results/sir_eredmények', 'w', encoding='utf-8')
+        file = open('results/spread_results/sir_eredmények.txt', 'w', encoding='utf-8')
         file.write("SIR model eredmények: \n\n")
 
         for graph in self.graphs:
@@ -89,7 +96,7 @@ class SpreadExperiment:
         algorithm = "THRESHOLD"
         i = 0
 
-        file = open('results/spread_results/threshold_eredmények', 'w', encoding='utf-8')
+        file = open('results/spread_results/threshold_eredmények.txt', 'w', encoding='utf-8')
         file.write("Threshold model eredmények: \n\n")
 
         for graph in self.graphs:
@@ -135,7 +142,7 @@ class SpreadExperiment:
         i = 0
         algorithm = "CASCADE"
 
-        file = open('results/spread_results/cascade_eredmények', 'w', encoding='utf-8')
+        file = open('results/spread_results/cascade_eredmények.txt', 'w', encoding='utf-8')
         file.write("Cascade model eredmények: \n\n")
 
         for graph in self.graphs:

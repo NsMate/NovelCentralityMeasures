@@ -29,7 +29,7 @@ class CoverageExperiment:
 
     def write_result_to_file(self, graph, model, config, file):
         model.set_initial_status(config)
-        iteration_number = 1
+        iteration_number = 25
         infected = 5
         _25percent = math.floor(len(graph.nodes) * 0.25)
         _50percent = math.floor(len(graph.nodes) * 0.50)

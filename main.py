@@ -35,6 +35,6 @@ if __name__ == '__main__':
 
     spread = SpreadExperiment()
     spread.sir_model_spread()
-    spread.threshold_model_spread()
-    spread.cascade_model_spread()
+    #spread.cascade_model_spread()
+    #spread.threshold_model_spread()
 
