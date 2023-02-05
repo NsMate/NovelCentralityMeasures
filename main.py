@@ -33,8 +33,9 @@ def gnp_random_connected_graph(n, p):
 if __name__ == '__main__':
     #graph = gnp_random_connected_graph(45, 0.00001)
 
-    spread = SpreadExperiment()
-    spread.sir_model_spread()
-    #spread.cascade_model_spread()
-    #spread.threshold_model_spread()
+    frequency = CentralityFrequency()
+    frequency.local_h_cluster_frequencies()
+    frequency.global_structure_model_frequencies()
+    frequency.local_fuzzy_frequencies()
+    frequency.basic_centrality_frequencies()
 

@@ -20,6 +20,8 @@ class CentralityFrequency:
 
         file = open('results/frequency_results/local_fuzzy_eredmények', 'w', encoding='utf-8')
         file.write("local fuzzy centrality eredmények: \n")
+        #centrality_file = open('results/centrality_values/local_fuzzy_eredmeny', 'w', encoding='utf-8')
+        #centrality_file.write("local fuzzy eredmények: \n\n")
 
         for graph in self.graphs:
             centrality_frequencies = dict()
@@ -30,24 +32,23 @@ class CentralityFrequency:
             centralities = local_fuzzy.get_centrality_values()
 
             centralities_copy = sorted(centralities.items(), key=lambda x: x[1], reverse=True)
-            for i in range(10):
-                file.write(str(centralities_copy[i]) + "\n")
-            file.write("\n")
 
-            for k,v in centralities.items():
+            #centrality_file.write(str(graph) + ": \n\n")
+            for k, v in centralities_copy:
+                #centrality_file.write(str(k) + " : " + str(v) + "\n")
+                v = round(v, 3)
                 if v in centrality_frequencies:
                     centrality_frequencies[v] += 1
                 else:
                     centrality_frequencies[v] = 1
 
-            centrality_frequencies = sorted(centrality_frequencies.items(), key=lambda x: x[1], reverse=True)
-            print(str(graph) + ":")
-            i = 0
-            while i < 10 and i < len(centrality_frequencies):
-                print(str(centrality_frequencies[i][0]) + ": " + str(centrality_frequencies[i][1]))
-                i += 1
+            centrality_frequencies = sorted(centrality_frequencies.items(), key=lambda x: x[0], reverse=True)
+            file.write(str(graph) + " : \n\n")
+            for k, v in centrality_frequencies:
+                file.write(str(k) + " : " + str(v) + "\n")
 
         file.close()
+        #centrality_file.close()
 
     def local_h_cluster_frequencies(self):
         local_h = LocalClusteringHIndexCentrality()
@@ -55,32 +56,34 @@ class CentralityFrequency:
 
         file = open('results/frequency_results/local_h_eredmények', 'w', encoding='utf-8')
         file.write("local h index eredmények: \n")
+        #centrality_file = open('results/centrality_values/local_h_eredmeny', 'w', encoding='utf-8')
+        #centrality_file.write("local h eredmények: \n\n")
+
         for graph in self.graphs:
             centrality_frequencies = dict()
-            file.write(str(graph) + "\n")
             read_graph = self.reader.read_graph(graph)
             local_h.set_graph(read_graph)
 
             centralities = local_h.get_centrality_values()
-            centralities_copy = sorted(centralities.items(), key=lambda x: x[1], reverse=True)
-            for i in range(10):
-                file.write(str(centralities_copy[i]) + "\n")
-            file.write("\n")
 
-            for k, v in centralities.items():
+            centralities_copy = sorted(centralities.items(), key=lambda x: x[1], reverse=True)
+
+            #centrality_file.write(str(graph) + ": \n\n")
+            for k, v in centralities_copy:
+                #centrality_file.write(str(k) + " : " + str(v) + "\n")
+                v = round(v, 3)
                 if v in centrality_frequencies:
                     centrality_frequencies[v] += 1
                 else:
                     centrality_frequencies[v] = 1
 
-            centrality_frequencies = sorted(centrality_frequencies.items(), key=lambda x: x[1], reverse=True)
-            print(str(graph) + ":")
-            i = 0
-            while i < 10 and i < len(centrality_frequencies):
-                print(str(centrality_frequencies[i][0]) + ": " + str(centrality_frequencies[i][1]))
-                i += 1
+            centrality_frequencies = sorted(centrality_frequencies.items(), key=lambda x: x[0], reverse=True)
+            file.write(str(graph) + " : \n\n")
+            for k, v in centrality_frequencies:
+                file.write(str(k) + " : " + str(v) + "\n")
 
         file.close()
+        #centrality_file.close()
 
     def global_structure_model_frequencies(self):
         global_structure = GlobalStructureModel()
@@ -88,39 +91,42 @@ class CentralityFrequency:
 
         file = open('results/frequency_results/global_structure_eredmények', 'w', encoding='utf-8')
         file.write("global structure model eredmények: \n")
+        #centrality_file = open('results/centrality_values/global_structure_eredmeny', 'w', encoding='utf-8')
+        #centrality_file.write("global structure model eredmények: \n\n")
 
         for graph in self.graphs:
             centrality_frequencies = dict()
-            file.write(str(graph) + "\n")
             read_graph = self.reader.read_graph(graph)
             global_structure.set_graph(read_graph)
 
             centralities = global_structure.get_centrality_values()
 
             centralities_copy = sorted(centralities.items(), key=lambda x: x[1], reverse=True)
-            for i in range(10):
-                file.write(str(centralities_copy[i]) + "\n")
-            file.write("\n")
 
-            for k, v in centralities.items():
+            #centrality_file.write(str(graph) + ": \n\n")
+            for k, v in centralities_copy:
+                #centrality_file.write(str(k) + " : " + str(v) + "\n")
+                v = round(v, 3)
                 if v in centrality_frequencies:
                     centrality_frequencies[v] += 1
                 else:
                     centrality_frequencies[v] = 1
 
-            centrality_frequencies = sorted(centrality_frequencies.items(), key=lambda x: x[1], reverse=True)
-            print(str(graph) + ":")
-            i = 0
-            while i < 10 and i < len(centrality_frequencies):
-                print(str(centrality_frequencies[i][0]) + ": " + str(centrality_frequencies[i][1]))
-                i += 1
+            centrality_frequencies = sorted(centrality_frequencies.items(), key=lambda x: x[0], reverse=True)
+            file.write(str(graph) + " : \n\n")
+            for k, v in centrality_frequencies:
+                file.write(str(k) + " : " + str(v) + "\n")
 
         file.close()
+        #centrality_file.close()
 
     def basic_centrality_frequencies(self):
         print("Bacic centrality measures: ")
 
         file = open('results/frequency_results/basic_centrality_eredmények', 'w', encoding='utf-8')
+        file.write("basic model eredmények: \n\n")
+        #centrality_file = open('results/centrality_values/basic_eredmeny', 'w', encoding='utf-8')
+        #centrality_file.write("basic model eredmények: \n\n")
 
         for graph in self.graphs:
             centrality_frequencies = dict()
@@ -130,47 +136,43 @@ class CentralityFrequency:
             basic_centrality.set_graph(read_graph)
 
             centralities_degree = basic_centrality.get_degree_centrality_values()
-            centralities_between = basic_centrality.get_betweenness_centrality()
 
-            file.write(str(graph) + " : degree \n")
-            centralities_degree_copy = sorted(centralities_degree.items(), key=lambda x: x[1], reverse=True)
-            for i in range(10):
-                file.write(str(centralities_degree_copy[i]) + "\n")
-            file.write("\n")
+            centralities_copy = sorted(centralities_degree.items(), key=lambda x: x[1], reverse=True)
 
-            file.write(str(graph) + " : betweenness")
-            centralities_between_copy = sorted(centralities_between.items(), key=lambda x: x[1], reverse=True)
-            for i in range(10):
-                file.write(str(centralities_between_copy[i]) + "\n")
-            file.write("\n")
-
-            for k, v in centralities_degree.items():
+            #centrality_file.write(str(graph) + "(degree): \n\n")
+            for k, v in centralities_copy:
+                #centrality_file.write(str(k) + " : " + str(v) + "\n")
+                v = round(v, 3)
                 if v in centrality_frequencies:
                     centrality_frequencies[v] += 1
                 else:
                     centrality_frequencies[v] = 1
 
-            centrality_frequencies = sorted(centrality_frequencies.items(), key=lambda x: x[1], reverse=True)
-            print("Degree Centrality measures: " + str(graph) + " \n")
-            i = 0
-            while i < 10 and i < len(centrality_frequencies):
-                print(str(centrality_frequencies[i][0]) + ": " + str(centrality_frequencies[i][1]))
-                i += 1
+            centrality_frequencies = sorted(centrality_frequencies.items(), key=lambda x: x[0], reverse=True)
+            file.write(str(graph) + " : \n\n")
+            for k, v in centrality_frequencies:
+                file.write(str(k) + " : " + str(v) + "\n")
 
             centrality_frequencies = dict()
 
-            for k, v in centralities_between.items():
+            centralities_between = basic_centrality.get_betweenness_centrality()
+
+            centralities_copy = sorted(centralities_between.items(), key=lambda x: x[1], reverse=True)
+
+            #centrality_file.write(str(graph) + "(betwenness): \n\n")
+            for k, v in centralities_copy:
+                #centrality_file.write(str(k) + " : " + str(v) + "\n")
+                v = round(v, 3)
                 if v in centrality_frequencies:
                     centrality_frequencies[v] += 1
                 else:
                     centrality_frequencies[v] = 1
 
-            centrality_frequencies = sorted(centrality_frequencies.items(), key=lambda x: x[1], reverse=True)
-            print("Betweenness Centrality measures: " + str(graph) + " \n")
-            i = 0
-            while i < 10 and i < len(centrality_frequencies):
-                print(str(centrality_frequencies[i][0]) + ": " + str(centrality_frequencies[i][1]))
-                i += 1
+            centrality_frequencies = sorted(centrality_frequencies.items(), key=lambda x: x[0], reverse=True)
+            file.write(str(graph) + " : \n\n")
+            for k, v in centrality_frequencies:
+                file.write(str(k) + " : " + str(v) + "\n")
 
         file.close()
+        #centrality_file.close()
 
