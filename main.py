@@ -33,8 +33,8 @@ def gnp_random_connected_graph(n, p):
 if __name__ == '__main__':
     #graph = gnp_random_connected_graph(45, 0.00001)
 
-    spread = SpreadExperiment()
-    #spread.sir_model_spread()
-    spread.cascade_model_spread()
-    spread.threshold_model_spread()
+    spread = CoverageExperiment()
+    spread.threshold_model_coverages()
+    spread.cascade_model_coverages()
+    spread.sir_model_coverages()
 

@@ -1,6 +1,5 @@
 from utils.read_graph import ReadGraph
 
-import math
 import ndlib.models.epidemics as ep
 import ndlib.models.ModelConfig as mc
 
@@ -27,162 +26,126 @@ class CoverageExperiment:
                                              [157, 46, 597, 30, 232, 328], [2565, 11, 457, 4037, 1549],
                                              [223, 418, 546, 867, 900]]
 
-    def write_result_to_file(self, graph, model, config, file):
+    def write_result_to_file(self, graph, model, config, algorithm, centrality, graph_name):
+        file = open('results/coverage_results/' + str(algorithm) + '/' + str(centrality) + '/' + str(graph_name) + '.txt', 'w', encoding='utf-8')
+
         model.set_initial_status(config)
         iteration_number = 25
-        infected = 5
-        _25percent = math.floor(len(graph.nodes) * 0.25)
-        _50percent = math.floor(len(graph.nodes) * 0.50)
-        _75percent = math.floor(len(graph.nodes) * 0.70)
+        repeat = 500
 
-        while infected < _25percent:
-            iteration = model.iteration()
-            infected = iteration["node_count"][1]
-            iteration_number += 1
-            print(infected)
-        iteration_25 = iteration_number
-        while infected < _50percent:
-            iteration = model.iteration()
-            infected = iteration["node_count"][1]
-            iteration_number += 1
-        iteration_50 = iteration_number
-        while infected < _75percent:
-            iteration = model.iteration()
-            infected = iteration["node_count"][1]
-            iteration_number += 1
-        iteration_75 = iteration_number
-        model.reset()
-        file.write("25% iteration : " + str(iteration_25) + "\n")
-        file.write("50% iteration : " + str(iteration_50) + "\n")
-        file.write("75% iteration : " + str(iteration_75) + "\n\n")
+        for i in range(0, repeat, 1):
+            i = 0
+            model.set_initial_status(config)
+            iterations = model.iteration_bunch(iteration_number)
+
+            for iteration in iterations:
+                i += 1
+                file.write(str(i) + ","
+                           + str(len(graph.nodes)) + ","
+                           + str(iteration["node_count"][0]) + ","
+                           + str(iteration["node_count"][1]) + "\n")
+
+        file.close()
 
     def sir_model_coverages(self):
         i = 0
-
-        file = open('results/coverage_results/sir_eredmények', 'w', encoding='utf-8')
-        file.write("SIR model eredmények: \n\n")
+        algorithm = 'SIR'
 
         for graph in self.graphs:
             read_graph = self.reader.read_graph(graph)
-            file.write(str(graph) + ": \n\n")
             model = ep.SIRModel(read_graph)
             cfg = mc.Configuration()
-            cfg.add_model_parameter('beta', 0.025)
-            cfg.add_model_parameter('gamma', 0.001)
+            cfg.add_model_parameter('beta', 0.005)
+            cfg.add_model_parameter('gamma', 0.005)
 
             cfg.add_model_initial_configuration("Infected", self.local_h_cores[i])
-            file.write("Local H index centrality cores: \n\n")
 
-            self.write_result_to_file(read_graph, model, cfg, file)
-            """"
+            self.write_result_to_file(read_graph, model, cfg, algorithm, 'local_h', graph)
+
             cfg.add_model_initial_configuration("Infected", self.local_fuzzy_cores[i])
-            file.write("Local Fuzzy centrality cores: \n\n")
 
-            self.write_result_to_file(read_graph, model, cfg, file)
+            self.write_result_to_file(read_graph, model, cfg, algorithm, 'local_fuzzy', graph)
 
             cfg.add_model_initial_configuration("Infected", self.global_structure_model_cores[i])
-            file.write("Global structure model cores: \n\n")
 
-            self.write_result_to_file(read_graph, model, cfg, file)
+            self.write_result_to_file(read_graph, model, cfg, algorithm, 'global_structure_m', graph)
 
             cfg.add_model_initial_configuration("Infected", self.degree_centrality_nodes[i])
-            file.write("Degree centrality cores: \n\n")
 
-            self.write_result_to_file(read_graph, model, cfg, file)
+            self.write_result_to_file(read_graph, model, cfg, algorithm, 'degree', graph)
 
             cfg.add_model_initial_configuration("Infected", self.betweenness_centrality_nodes[i])
-            file.write("Betweenness centrality cores: \n\n")
 
-            self.write_result_to_file(read_graph, model, cfg, file)
-            """
+            self.write_result_to_file(read_graph, model, cfg, algorithm, 'between', graph)
+
             i += 1
-        file.close()
 
     def threshold_model_coverages(self):
         i = 0
-        self.graphs = ["high_degree.mtx"]
-        file = open('results/coverage_results/threshold_eredmények', 'w', encoding='utf-8')
-        file.write("Treshold model eredmények: \n\n")
+        algorithm = 'THRESHOLD'
 
         for graph in self.graphs:
             read_graph = self.reader.read_graph(graph)
-            file.write(str(graph) + ": \n\n")
             model = ep.ThresholdModel(read_graph)
             cfg = mc.Configuration()
 
-            threshold = 0.1
+            threshold = 0.05
             for node in read_graph.nodes():
                 cfg.add_node_configuration("threshold", node, threshold)
 
             cfg.add_model_initial_configuration("Infected", self.local_h_cores[i])
-            file.write("Local H index centrality cores: \n\n")
 
-            self.write_result_to_file(read_graph, model, cfg, file)
-            """"
+            self.write_result_to_file(read_graph, model, cfg, algorithm, 'local_h', graph)
+
             cfg.add_model_initial_configuration("Infected", self.local_fuzzy_cores[i])
-            file.write("Local Fuzzy centrality cores: \n\n")
 
-            self.write_result_to_file(read_graph, model, cfg, file)
+            self.write_result_to_file(read_graph, model, cfg, algorithm, 'local_fuzzy', graph)
 
             cfg.add_model_initial_configuration("Infected", self.global_structure_model_cores[i])
-            file.write("Global structure model cores: \n\n")
 
-            self.write_result_to_file(read_graph, model, cfg, file)
+            self.write_result_to_file(read_graph, model, cfg, algorithm, 'global_structure_m', graph)
 
             cfg.add_model_initial_configuration("Infected", self.degree_centrality_nodes[i])
-            file.write("Degree centrality cores: \n\n")
 
-            self.write_result_to_file(read_graph, model, cfg, file)
+            self.write_result_to_file(read_graph, model, cfg, algorithm, 'degree', graph)
 
             cfg.add_model_initial_configuration("Infected", self.betweenness_centrality_nodes[i])
-            file.write("Betweenness centrality cores: \n\n")
 
-            self.write_result_to_file(read_graph, model, cfg, file)
-            """
+            self.write_result_to_file(read_graph, model, cfg, algorithm, 'between', graph)
+
             i += 1
-        file.close()
 
     def cascade_model_coverages(self):
         i = 0
-        self.graphs = ["high_degree.mtx"]
-        file = open('results/coverage_results/cascade_eredmények', 'w', encoding='utf-8')
-        file.write("Cascade model eredmények: \n\n")
+        algorithm = 'CASCADE'
 
         for graph in self.graphs:
             read_graph = self.reader.read_graph(graph)
-            file.write(str(graph) + ": \n\n")
             model = ep.IndependentCascadesModel(read_graph)
             cfg = mc.Configuration()
 
-            threshold = 0.01
+            threshold = 0.05
             for e in read_graph.edges():
                 cfg.add_edge_configuration("threshold", e, threshold)
 
-            cfg.add_model_initial_configuration("Infected", [1439,87,1494,2610,156])
-            file.write("Local H index centrality cores: \n\n")
+            cfg.add_model_initial_configuration("Infected", self.local_h_cores[i])
 
-            self.write_result_to_file(read_graph, model, cfg, file)
-            """"
+            self.write_result_to_file(read_graph, model, cfg, algorithm, 'local_h', graph)
+
             cfg.add_model_initial_configuration("Infected", self.local_fuzzy_cores[i])
-            file.write("Local Fuzzy centrality cores: \n\n")
 
-            self.write_result_to_file(read_graph, model, cfg, file)
+            self.write_result_to_file(read_graph, model, cfg, algorithm, 'local_h', graph)
 
             cfg.add_model_initial_configuration("Infected", self.global_structure_model_cores[i])
-            file.write("Global structure model cores: \n\n")
 
-            self.write_result_to_file(read_graph, model, cfg, file)
+            self.write_result_to_file(read_graph, model, cfg, algorithm, 'local_h', graph)
 
             cfg.add_model_initial_configuration("Infected", self.degree_centrality_nodes[i])
-            file.write("Degree centrality cores: \n\n")
 
-            self.write_result_to_file(read_graph, model, cfg, file)
+            self.write_result_to_file(read_graph, model, cfg, algorithm, 'local_h', graph)
 
             cfg.add_model_initial_configuration("Infected", self.betweenness_centrality_nodes[i])
-            file.write("Betweenness centrality cores: \n\n")
 
-            self.write_result_to_file(read_graph, model, cfg, file)
-            """
+            self.write_result_to_file(read_graph, model, cfg, algorithm, 'local_h', graph)
+
             i += 1
-        file.close()
-
