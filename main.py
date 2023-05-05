@@ -34,7 +34,5 @@ if __name__ == '__main__':
     #graph = gnp_random_connected_graph(45, 0.00001)
 
     spread = CoverageExperiment()
-    spread.threshold_model_coverages()
     spread.cascade_model_coverages()
-    spread.sir_model_coverages()
 

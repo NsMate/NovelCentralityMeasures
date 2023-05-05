@@ -45,6 +45,8 @@ class CoverageExperiment:
                            + str(iteration["node_count"][0]) + ","
                            + str(iteration["node_count"][1]) + "\n")
 
+            model.reset()
+
         file.close()
 
     def sir_model_coverages(self):
@@ -56,14 +58,14 @@ class CoverageExperiment:
             model = ep.SIRModel(read_graph)
             cfg = mc.Configuration()
             cfg.add_model_parameter('beta', 0.005)
-            cfg.add_model_parameter('gamma', 0.005)
+            cfg.add_model_parameter('gamma', 0.05)
 
             cfg.add_model_initial_configuration("Infected", self.local_h_cores[i])
 
             self.write_result_to_file(read_graph, model, cfg, algorithm, 'local_h', graph)
 
             cfg.add_model_initial_configuration("Infected", self.local_fuzzy_cores[i])
-
+            
             self.write_result_to_file(read_graph, model, cfg, algorithm, 'local_fuzzy', graph)
 
             cfg.add_model_initial_configuration("Infected", self.global_structure_model_cores[i])
@@ -89,7 +91,7 @@ class CoverageExperiment:
             model = ep.ThresholdModel(read_graph)
             cfg = mc.Configuration()
 
-            threshold = 0.05
+            threshold = 0.15
             for node in read_graph.nodes():
                 cfg.add_node_configuration("threshold", node, threshold)
 
@@ -124,7 +126,7 @@ class CoverageExperiment:
             model = ep.IndependentCascadesModel(read_graph)
             cfg = mc.Configuration()
 
-            threshold = 0.05
+            threshold = 0.1
             for e in read_graph.edges():
                 cfg.add_edge_configuration("threshold", e, threshold)
 
@@ -134,18 +136,18 @@ class CoverageExperiment:
 
             cfg.add_model_initial_configuration("Infected", self.local_fuzzy_cores[i])
 
-            self.write_result_to_file(read_graph, model, cfg, algorithm, 'local_h', graph)
+            self.write_result_to_file(read_graph, model, cfg, algorithm, 'local_fuzzy', graph)
 
             cfg.add_model_initial_configuration("Infected", self.global_structure_model_cores[i])
 
-            self.write_result_to_file(read_graph, model, cfg, algorithm, 'local_h', graph)
+            self.write_result_to_file(read_graph, model, cfg, algorithm, 'global_structure_m', graph)
 
             cfg.add_model_initial_configuration("Infected", self.degree_centrality_nodes[i])
 
-            self.write_result_to_file(read_graph, model, cfg, algorithm, 'local_h', graph)
+            self.write_result_to_file(read_graph, model, cfg, algorithm, 'degree', graph)
 
             cfg.add_model_initial_configuration("Infected", self.betweenness_centrality_nodes[i])
 
-            self.write_result_to_file(read_graph, model, cfg, algorithm, 'local_h', graph)
+            self.write_result_to_file(read_graph, model, cfg, algorithm, 'between', graph)
 
             i += 1
