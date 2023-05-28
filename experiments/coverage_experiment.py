@@ -27,23 +27,20 @@ class CoverageExperiment:
                                              [223, 418, 546, 867, 900]]
 
     def write_result_to_file(self, graph, model, config, algorithm, centrality, graph_name):
-        file = open('results/coverage_results/' + str(algorithm) + '/' + str(centrality) + '/' + str(graph_name) + '.txt', 'w', encoding='utf-8')
+        file = open(
+            'results/coverage_results/' + str(algorithm) + '/' + str(centrality) + '/' + str(graph_name) + '.txt', 'w',
+            encoding='utf-8')
 
         model.set_initial_status(config)
         iteration_number = 25
         repeat = 500
 
         for i in range(0, repeat, 1):
-            i = 0
             model.set_initial_status(config)
             iterations = model.iteration_bunch(iteration_number)
 
-            for iteration in iterations:
-                i += 1
-                file.write(str(i) + ","
-                           + str(len(graph.nodes)) + ","
-                           + str(iteration["node_count"][0]) + ","
-                           + str(iteration["node_count"][1]) + "\n")
+            file.write(str(len(graph.nodes)) + ","
+                       + str(iterations[-1]["node_count"][1] + iterations[-1]["node_count"][2]) + "," + "\n")
 
             model.reset()
 
@@ -65,7 +62,7 @@ class CoverageExperiment:
             self.write_result_to_file(read_graph, model, cfg, algorithm, 'local_h', graph)
 
             cfg.add_model_initial_configuration("Infected", self.local_fuzzy_cores[i])
-            
+
             self.write_result_to_file(read_graph, model, cfg, algorithm, 'local_fuzzy', graph)
 
             cfg.add_model_initial_configuration("Infected", self.global_structure_model_cores[i])
