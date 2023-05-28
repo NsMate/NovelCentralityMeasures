@@ -1,8 +1,13 @@
 import copy
+import networkx as nx
+
 
 class KShell:
 
-    def __init__(self, graph):
+    def __init__(self):
+        self.graph = nx.Graph()
+
+    def set_graph(self, graph):
         self.graph = graph
 
     def k_nodes(self, graph, k):
